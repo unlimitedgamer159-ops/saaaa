@@ -28,7 +28,7 @@ void main() {
 }
 
 class StreminiApp extends StatelessWidget {
-  const StreminiApp({super.key});
+  const StreminiApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class StreminiApp extends StatelessWidget {
 
 // ==================== OVERLAY WIDGET ====================
 class OverlayWidget extends StatefulWidget {
-  const OverlayWidget({super.key});
+  const OverlayWidget({Key? key}) : super(key: key);
 
   @override
   State<OverlayWidget> createState() => _OverlayWidgetState();
@@ -52,6 +52,10 @@ class OverlayWidget extends StatefulWidget {
 
 class _OverlayWidgetState extends State<OverlayWidget>
     with TickerProviderStateMixin {
+  // API Configuration
+  static const String _baseUrl = 
+      "https://ai-keyboard-backend.vishwajeetadkine705.workers.dev";
+  
   // Menu state
   bool _isMenuOpen = false;
 
@@ -146,7 +150,7 @@ class _OverlayWidgetState extends State<OverlayWidget>
       await Future.delayed(const Duration(seconds: 2));
 
       final resp = await http.post(
-        Uri.parse('https://ai-keyboard-backend.vishwajeetadkine705.workers.dev/security/scan-content'),
+        Uri.parse('$_baseUrl/security/scan-content'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'content': 'Screen content analysis request'}),
       ).timeout(
@@ -207,7 +211,7 @@ class _OverlayWidgetState extends State<OverlayWidget>
 
     try {
       final resp = await http.post(
-        Uri.parse('https://ai-keyboard-backend.vishwajeetadkine705.workers.dev/chat/message'),
+        Uri.parse('$_baseUrl/chat/message'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'message': msg}),
       ).timeout(
@@ -438,7 +442,7 @@ class _OverlayWidgetState extends State<OverlayWidget>
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: electricNeonBlue),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
@@ -449,8 +453,8 @@ class _OverlayWidgetState extends State<OverlayWidget>
                           strokeWidth: 2,
                         ),
                       ),
-                      SizedBox(width: 12),
-                      Text(
+                      const SizedBox(width: 12),
+                      const Text(
                         'Scanning screen...',
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
@@ -618,10 +622,10 @@ class _OverlayWidgetState extends State<OverlayWidget>
 
             // Typing indicator
             if (_isSending)
-              const Padding(
-                padding: EdgeInsets.only(left: 14, bottom: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 14, bottom: 4),
                 child: Row(
-                  children: [
+                  children: const [
                     SizedBox(
                       width: 12,
                       height: 12,
